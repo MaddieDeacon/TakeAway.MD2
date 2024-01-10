@@ -5,18 +5,59 @@
 #include "Appetiser.h"
 #include "MainCourse.h"
 #include "Beverage.h"
-#include "TakeAway.MD2.cpp"
+#include "Takeaway.cpp"
 using namespace std;
 
 Menu::Menu(string filename)
     : ItemList()
 {
-    if (filePath.empty()) {
-        filePath = "menuc.vs"; // Default file path if not provided
-    }
+    ifstream file(filename);
+        if (!file.is_open()) {
+            cerr << "Error opening file: " << filename << endl;
+            return;
+        }
 
-	loadMenu(filePath);
-}
+        string line;
+        while (getline(file, line)) {
+            istringstream iss(line);
+            char itemType;
+            string name;
+            double price;
+            int calories;
+            bool shareable;
+            bool twoForOne;
+            double abv;
+            int volume;
+
+            if (!(iss >> itemType >> name >> price >> calories)) {
+                cerr << "Error parsing line: " << line << endl;
+                continue;
+            }
+
+            if (itemType == 'a') {
+                if (!(iss >> shareable >> twoForOne)) {
+                    cerr << "Error parsing line: " << line << endl;
+                    continue;
+                }
+                addItem(new Appetiser(name, price, calories, shareable, twoForOne));
+            }
+            else if (itemType == 'm') {
+                addItem(new MainCourse(name, price, calories));
+            }
+            else if (itemType == 'b') {
+                if (!(iss >> abv >> volume)) {
+                    cerr << "Error parsing line: " << line << endl;
+                    continue;
+                }
+                addItem(new Beverage(name, price, calories, abv, volume));
+            }
+            else {
+                cerr << "Unknown item type: " << itemType << endl;
+            }
+        }
+
+        file.close();
+    }
 
 Menu::~Menu()
 {
@@ -34,55 +75,10 @@ string Menu::toString()
 	return string();
 }
 
-void Menu::loadMenu(string filePath)
-{
-    ifstream file(filePath);
-    if (!file.is_open()) {
-        cerr << "Error opening file: " << filePath << endl;
-        return;
-    }
 
-    std::string line;
-    while (getline(file, line)) {
-        istringstream iss(line);
-        char itemType;
-        string name;
-        double price;
-        int calories;
-        bool shareable;
-        bool twoForOne;
-        double abv;
-        int volume;
 
-        if (!(iss >> itemType >> name >> price >> calories)) {
-            cerr << "Error parsing line: " << line << endl;
-            continue;
-        }
 
-        if (itemType == 'a') {
-            if (!(iss >> shareable >> twoForOne)) {
-                cerr << "Error parsing line: " << line << endl;
-                continue;
-            }
-            addItem(new Appetiser(name, price, calories, shareable, twoForOne));
-        }
-        else if (itemType == 'm') {
-            addItem(new MainCourse(name, price, calories));
-        }
-        else if (itemType == 'b') {
-            if (!(iss >> abv >> volume)) {
-                cerr << "Error parsing line: " << line << endl;
-                continue;
-            }
-            addItem(new Beverage(name, price, calories, abv, volume));
-        }
-        else {
-            cerr << "Unknown item type: " << itemType << endl;
-        }
-    }
 
-    file.close();
-}
 
 
 

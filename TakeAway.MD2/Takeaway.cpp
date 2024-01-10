@@ -16,6 +16,7 @@ Good luck!
 #include "Menu.h"
 #include "Order.h"
 #include "Item.h"
+#include "ItemList.h"
 
 #include <iostream>
 #include <vector>
@@ -29,7 +30,7 @@ int main()
 	vector <string> parameters;
 
 	// Create a menu object from a CSV file
-	Menu menu = Menu("menu.csv");
+	Menu menu = Menu("menu2.csv");
 
 	// Create an order object
 	Order order = Order();
@@ -80,6 +81,6 @@ int main()
 	}
 
 	cout << "Press any key to quit...";
-	std::getchar();
+	getchar();
 
 }

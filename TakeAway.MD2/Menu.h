@@ -8,8 +8,6 @@ public:
 	Menu(string filename);
 	~Menu();
 	string toString();
-private:
-	void loadMenu(string filePath);
 };
 
 

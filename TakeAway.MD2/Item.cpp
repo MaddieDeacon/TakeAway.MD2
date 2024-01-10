@@ -11,7 +11,7 @@ using namespace std;
 
 	double Item::getPrice()
 	{
-		return 0.0;
+		return price;
 	}
 
 	int Item::getCalories()

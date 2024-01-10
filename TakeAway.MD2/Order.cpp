@@ -46,27 +46,26 @@ void Order::printReceipt()
     }
 
     receiptFile << toString() << std::endl;
-    void Order::calculateTotal();
+    calculateTotal();
     receiptFile.close();
 
     cout << "Receipt saved to receipt.txt" << endl;
 }
 
-void Order::add(int index)
-{
-    if (index >= 1 && static_cast<size_t>(index) <= items.size()) {
-        items.push_back(items[index - 1]); // Add a pointer to the existing item
-        std::cout << "Item added to the order." << std::endl;
+void Order::add(Item* newItem) {
+    if (newItem != nullptr) {
+        items.push_back(newItem); 
+        cout << "Item added to the order." << endl;
     }
     else {
-        std::cerr << "Invalid index. Please enter a valid index to add an item." << std::endl;
+        cerr << "Invalid item pointer. Please provide a valid item to add." << endl;
     }
 }
 
 
 
-void Order::remove(int index)
-{
+
+void Order::remove(int index) {
     if (index >= 1 && static_cast<size_t>(index) <= items.size()) {
         delete items[index - 1]; // Free memory for the removed item
         items.erase(items.begin() + index - 1);
@@ -77,9 +76,10 @@ void Order::remove(int index)
     }
 }
 
+
 string Order::toString()
 {
-    std::string orderString = "Order:\n";
+    string orderString = "Order:\n";
     for (size_t i = 0; i < items.size(); ++i) {
         orderString += std::to_string(i + 1) + ". " + items[i]->toString() + "\n";
     }

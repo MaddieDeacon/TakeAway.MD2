@@ -145,6 +145,11 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Order.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\mad23\Downloads\menu.csv" />
+    <None Include="C:\Users\mad23\OneDrive\Desktop\menu (1).csv" />
+    <None Include="menu2.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
